@@ -1,0 +1,31 @@
+﻿@model ProjectUser
+
+@{
+    ViewData["Title"] = "Add Developer To Project";
+}
+
+<div>
+    <div>
+        <h2>@ViewData["Title"]</h2>
+    </div>
+    <div>
+        <form asp-action="AddDeveloperToProject" method="post">
+            <div>
+                <input asp-for="Id" type="hidden" value="@Model.Id" />
+                <input asp-for="ProjectId" type="hidden" value="@Model.ProjectId" />
+            </div>
+            <div>
+                <label asp-for="SystemUserId"></label>
+                @* <select asp-for="SystemUserId" asp-items="ViewBag.SystemUserId"></select> *@
+                <select asp-for="SystemUserId" asp-items="ViewBag.Developers"></select>
+                <span asp-validation-for="SystemUserId"></span>
+            </div>
+            <div>
+                <input type="submit" value="Add" />
+            </div>
+        </form>
+    </div>
+    <div>
+        <a asp-action="ProjectDetails" asp-route-id="@Model.ProjectId">Go back</a>
+    </div>
+</div>

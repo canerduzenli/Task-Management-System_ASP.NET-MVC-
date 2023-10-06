@@ -1,0 +1,70 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+table {
+    width: 100%;
+}
+
+table tbody tr {
+    border-bottom: 1px solid rgba(120, 120, 120, 0.5);
+}
+
+table tbody tr td a + a {
+    margin-left: 15px;
+}
+
+.project-user {
+    border-bottom: 1px solid rgba(120, 120, 120, 0.5);
+    display: flex;
+    line-height: 45px;
+    height: 45px;
+    justify-content: space-between;
+}
+
+.project-user a + a {
+    margin-left: 30px;
+}
+
+.user {
+    border-bottom: 1px solid rgba(120, 120, 120, 0.5);
+    display: flex;
+    line-height: 45px;
+    height: 45px;
+    justify-content: space-between;
+}
+
+.user-form {
+    display: flex;
+    height: 45px;
+    line-height: 45px;
+}
+
+.user-form form {
+    align-items: center;
+    display: flex;
+}
+
+.user-form form + form {
+    margin-left: 30px;
+}
+
+.user-form form input[type=submit] {
+    height: 22.5px;
+    line-height: 22.5px;
+}

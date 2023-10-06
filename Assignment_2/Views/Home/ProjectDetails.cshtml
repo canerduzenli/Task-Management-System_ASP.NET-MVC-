@@ -1,0 +1,84 @@
+﻿@using Assignment_2.Areas.Identity.Data
+@using X.PagedList
+@using X.PagedList.Mvc.Core
+@using System.Security.Claims
+
+@model TicketVM
+
+@{
+    ViewData["Title"] = "Project Details";
+}
+
+<div>
+    <h2>@ViewData["Title"]</h2>
+    <div>
+        @if (User.IsInRole("Administrator") || User.IsInRole("Project Manager"))
+        {
+            <div>
+                <a asp-action="CreateTicket" asp-route-id="@Model.Project.Id">Create Ticket</a>
+            </div>
+            <div>
+                <a asp-action="AddDeveloperToProject" asp-route-id="@Model.Project.Id">Add Developer</a>
+            </div>
+        }
+        <div>
+            <div>
+                <a asp-action="ProjectDetails" asp-route-id="@Model.Project.Id">View In Progress Tickets</a>
+            </div>
+            <div>
+                <a asp-action="ProjectDetails" asp-route-id="@Model.Project.Id" asp-route-isComplete="true">View Completed Tickets</a>
+            </div>
+        </div>
+    </div>
+    <div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Priority</th>
+                    <th>Required Hours</th>
+                    <th>Status</th>
+                    <th></th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (Ticket ticket in Model.Tickets.OrderBy(t => t.Priority).ThenBy(t => t.RequiredHours))
+                {
+                    <tr>
+                        <td>@ticket.TicketTitle</td>
+                        <td>@ticket.Priority</td>
+                        <td>@ticket.RequiredHours</td>
+                        <td>@(ticket.IsComplete == true ? "Completed" : "In Progress")</td>
+                        <td>
+                            <form asp-action="CompleteTicket" method="post">
+                                <input asp-for="@ticket.Id" type="hidden" value="@ticket.Id" />
+                                <input asp-for="@ticket.TicketTitle" type="hidden" value="@ticket.TicketTitle" />
+                                <input asp-for="@ticket.Priority" type="hidden" value="@ticket.Priority" />
+                                <input asp-for="@ticket.RequiredHours" type="hidden" value="@ticket.RequiredHours" />
+                                <input asp-for="@ticket.IsComplete" type="hidden" value="@ticket.IsComplete" />
+                                <input asp-for="@ticket.ProjectId" type="hidden" value="@ticket.ProjectId" />
+                                <input type="submit" value="@(ticket.IsComplete == true ? "In Progress" : "Completed")" />
+                            </form>
+                        </td>
+                        <td>
+                            <a asp-action="TicketDetails" asp-route-id="@ticket.Id">Details</a>
+                            @if (User.IsInRole("Administrator") || User.IsInRole("Project Manager"))
+                            {
+                                <a asp-action="DeleteTicket" asp-route-id="@ticket.Id">Delete</a>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div>
+        <a asp-action="Index" asp-controller="Home">Go back</a>
+    </div>
+</div>
+<div>
+    Page @(Model.Tickets.PageCount < Model.Tickets.PageNumber ? 0 : Model.Tickets.PageNumber) of @Model.Tickets.PageCount
+
+    @Html.PagedListPager(Model.Tickets, page => Url.Action("ProjectDetails", new { id = Model.Project.Id, page }))
+</div>

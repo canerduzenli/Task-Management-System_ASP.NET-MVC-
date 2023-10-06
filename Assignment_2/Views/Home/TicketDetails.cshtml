@@ -1,0 +1,50 @@
+﻿@model Ticket
+
+@{
+    ViewData["Title"] = "Ticket Details";
+}
+
+<div>
+    <div>
+        <div>
+            <h2>@ViewData["Title"]</h2>
+        </div>
+        <div>
+            <div>
+                <a asp-action="EditTicket" asp-route-id="@Model.Id">Edit</a>
+            </div>
+            @if (User.IsInRole("Administrator") || User.IsInRole("Project Manager"))
+            {                
+                <div>
+                    <a asp-action="AddDeveloperToTicket" asp-route-id="@Model.Id">Add Developer</a>
+                </div>
+            }
+        </div>
+        <div>
+            <p><b>@Html.DisplayNameFor(model => model.Id):</b> @Html.DisplayFor(model => model.Id)</p>
+            <p><b>@Html.DisplayNameFor(model => model.TicketTitle):</b> @Html.DisplayFor(model => model.TicketTitle)</p>
+            <p><b>@Html.DisplayNameFor(model => model.Priority):</b> @Html.DisplayFor(model => model.Priority)</p>
+            <p><b>@Html.DisplayNameFor(model => model.RequiredHours):</b> @Html.DisplayFor(model => model.RequiredHours)</p>
+            <p><b>@Html.DisplayNameFor(model => model.ProjectId):</b> @Html.DisplayFor(model => model.ProjectId)</p>
+            <p><b>@Html.DisplayNameFor(model => model.Project.ProjectTitle):</b> @Html.DisplayFor(model => model.Project.ProjectTitle)</p>
+        </div>
+    </div>
+    <div>
+        <div>
+            <h2>Developers Assigned On This Ticket:</h2>
+        </div>
+        <div>
+            <table>
+                @foreach(TicketUser ticketUser in ViewBag.Developers)
+                {
+                    <tr>
+                        <td>@ticketUser.SystemUser.UserName</td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+    <div>
+        <a asp-action="ProjectDetails" asp-route-id="@Model.ProjectId">Go Back</a>
+    </div>
+</div>

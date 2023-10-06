@@ -1,0 +1,26 @@
+﻿@model Ticket
+
+@{
+    ViewData["Title"] = "Delete Ticket";
+}
+
+<div>
+    <h2>@ViewData["Title"]</h2>
+    <div>
+        <form asp-action="DeleteTicket" method="post">
+            <div>
+                <input asp-for="Id" type="hidden" value="@Model.Id" />
+                <input asp-for="TicketTitle" type="hidden" value="@Model.TicketTitle" />
+                <input asp-for="Priority" type="hidden" value="@Model.Priority" />
+                <input asp-for="RequiredHours" type="hidden" value="@Model.RequiredHours" />
+                <input asp-for="IsComplete" type="hidden" value="@Model.IsComplete" />
+                <input asp-for="ProjectId" type="hidden" value="@Model.ProjectId" />
+            </div>
+            <div>
+                <label>Confirm Request:</label>
+                <input type="submit" value="Yes" />
+                <input type="button" value="No" onclick="location.href='@Url.Action("ProjectDetails", "Home", new { id = Model.ProjectId })'" />
+            </div>
+        </form>
+    </div>
+</div>

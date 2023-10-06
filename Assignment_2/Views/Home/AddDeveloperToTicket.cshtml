@@ -1,0 +1,32 @@
+﻿@model TicketUser
+
+@{
+    ViewData["Title"] = "Add Developer To Ticket";
+}
+
+<div>
+    <div>
+        <h2>@ViewData["Title"]</h2>
+    </div>
+    <div>
+        <form asp-action="AddDeveloperToTicket" method="post">
+            <div>
+                <input asp-for="Id" type="hidden" value="@Model.Id" />
+                <input asp-for="TicketId" type="hidden" value="@Model.TicketId" />
+            </div>
+            <div>
+                <label asp-for="SystemUserId"></label>
+                <select asp-for="SystemUserId" asp-items="ViewBag.Developers"></select>
+                <span asp-validation-for="SystemUserId"></span>
+            </div>
+            <div>
+                <input type="submit" value="Add" />
+            </div>
+        </form>
+    </div>
+    <div>
+        <a asp-action="TicketDetails" asp-route-id="@Model.TicketId">Go back</a>
+    </div>
+</div>
+
+@Html.ValidationSummary(true, "", new { @class = "text-danger" })

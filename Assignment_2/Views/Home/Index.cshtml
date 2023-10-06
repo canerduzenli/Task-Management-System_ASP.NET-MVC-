@@ -1,0 +1,50 @@
+﻿@using Assignment_2.Areas.Identity.Data
+@using X.PagedList
+@using X.PagedList.Mvc.Core
+@using System.Security.Claims
+
+@model X.PagedList.IPagedList<ProjectUser>
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div>
+    <h2>Project's Available: (@Model.Count())</h2>
+    @if (User.IsInRole("Administrator") || User.IsInRole("Project Manager"))
+    {
+        <div>
+            <a asp-action="CreateProject" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)">Create Project</a>
+        </div>
+    }
+    <div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Project Title
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (ProjectUser projectUser in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(model => projectUser.Project.ProjectTitle)</td>
+                        <td>
+                            <a asp-action="ProjectDetails" asp-route-id="@projectUser.ProjectId">Details</a>
+                            @if (User.IsInRole("Administrator") || User.IsInRole("Project Manager"))
+                            {
+                                <a asp-action="DeleteProject" asp-route-id="@projectUser.ProjectId">Delete</a>
+                            }
+                        </td>
+                    </tr>
+                }
+        </table>
+    </div>
+</div>
+
+<div>
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+</div>

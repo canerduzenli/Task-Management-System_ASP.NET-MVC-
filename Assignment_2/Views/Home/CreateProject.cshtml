@@ -1,0 +1,41 @@
+﻿@using Assignment_2.Areas.Identity.Data;
+
+@model ProjectUser
+
+@{
+    ViewData["Title"] = "Create Project";
+}
+
+<div>
+    <h2>@ViewData["Title"]</h2>
+    <div>
+        <form asp-action="CreateProject" method="post">
+            <div>
+                <input type="hidden" asp-for="Id" value="@Model.Id" />
+                <input type="hidden" asp-for="ProjectId" value="@Model.ProjectId" />
+                <input type="hidden" asp-for="SystemUserId"value="@Model.SystemUserId" />
+            </div>
+            <div>
+                <input type="hidden" asp-for="Project.Id" value="@Model.ProjectId" />
+                <label asp-for="Project.ProjectTitle"></label>
+                <input asp-for="Project.ProjectTitle" />
+                <span asp-validation-for="Project.ProjectTitle"></span>
+            </div>
+            <div>
+                @foreach (SelectListItem developer in ViewData["SystemUserId"] as IEnumerable<SelectListItem>)
+                {
+                    <div>
+                        <input type="checkbox" name="developers" value="@developer.Value" id="@developer.Value" />
+                        <label for="@developer.Value">@developer.Text</label>
+                    </div>
+                }
+            </div>
+            <div>
+                <input type="submit" value="Create" />
+            </div>
+        </form>
+    </div>
+    <div>
+        <a asp-action="Index">Go Back</a>
+    </div>
+</div>

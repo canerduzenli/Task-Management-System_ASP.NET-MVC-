@@ -1,0 +1,22 @@
+﻿@using Assignment_2.Areas.Identity.Data
+
+@model List<SystemUser>
+
+<div>
+    @foreach (SystemUser user in Model)
+    {
+        <div class="user">
+            <p>@user.UserName</p>
+            <div class="user-form">
+                <form asp-action="Developer" method="post">
+                    <input type="hidden" asp-for="@user.Id" />
+                    <input type="submit" value="Developer" />
+                </form>
+                <form asp-action="ProjectManager" method="post">
+                    <input type="hidden" asp-for="@user.Id" />
+                    <input type="submit" value="Project Manager" />
+                </form>
+            </div>
+        </div>
+    }
+</div>

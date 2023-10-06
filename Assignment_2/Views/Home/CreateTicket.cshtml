@@ -1,0 +1,38 @@
+﻿@model Ticket
+
+@{
+    ViewData["Title"] = "Create Ticket";
+}
+
+<div>
+    <h2>@ViewData["Title"]</h2>
+    <div>
+        <form asp-action="CreateTicket" method="post">
+            <div>
+                <input asp-for="Id" type="hidden" value="@Model.Id" />
+                <input asp-for="IsComplete" type="hidden" value="@Model.IsComplete" />
+                <input asp-for="ProjectId" type="hidden" value="@Model.ProjectId" />
+            </div>
+            <div>
+                <label asp-for="TicketTitle"></label>
+                <input asp-for="TicketTitle" />
+                <span asp-validation-for="TicketTitle"></span>
+            </div>
+            <div>
+                <label asp-for="Priority"></label>
+                <select asp-for="Priority" asp-items="Html.GetEnumSelectList<TicketPriority>()"></select>
+            </div>
+            <div>
+                <label asp-for="RequiredHours"></label>
+                <input asp-for="RequiredHours" />
+                <span asp-validation-for="RequiredHours"></span>
+            </div>
+            <div>
+                <input type="submit" value="Create" />
+            </div>
+        </form>
+    </div>
+    <div>
+        <a asp-action="ProjectDetails" asp-route-id="@Model.ProjectId">Go Back</a>
+    </div>
+</div>

@@ -1,0 +1,52 @@
+﻿@model Assignment_2.Models.Ticket
+@{
+    ViewData["Title"] = "Edit Ticket";
+}
+
+<div>
+    <h2>@ViewData["Title"]</h2>
+    <div>
+        <form asp-action="EditTicket">
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="ProjectId" />
+
+            <div class="form-group">
+                <label asp-for="TicketTitle" class="control-label"></label>
+                <input asp-for="TicketTitle" class="form-control" />
+                <span asp-validation-for="TicketTitle" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Priority" class="control-label"></label>
+                <select asp-for="Priority" asp-items="Html.GetEnumSelectList<TicketPriority>()" class="form-control"></select>
+                <span asp-validation-for="Priority" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="RequiredHours" class="control-label"></label>
+                <input asp-for="RequiredHours" class="form-control" />
+                <span asp-validation-for="RequiredHours" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <div class="form-check">
+                    <input asp-for="IsComplete" class="form-check-input" />
+                    <label class="form-check-label" asp-for="IsComplete"></label>
+                </div>
+            </div>
+
+             
+
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+    <div>
+        <a asp-action="TicketDetails" asp-route-id="@Model.Id">Go Back</a>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
